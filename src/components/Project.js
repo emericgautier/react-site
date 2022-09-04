@@ -1,10 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { projectsData } from "../data/projectsData";
 
 const Project = ({ projectNumber }) => {
   console.log(projectsData);
   const [currentProject] = useState(projectsData[projectNumber]);
-  console.log(currentProject);
+  const [left, setLeft] = useState();
+  const [top, setTop] = useState();
+  const [size, setSize] = useState();
+
+  useEffect(() => {
+    // randomise la taille du cercle sur la gauche...
+    setLeft(Math.floor(Math.random() * 200 + 700) + "px");
+    setTop(Math.floor(Math.random() * 200 + 150) + "px");
+    setSize("scale(" + (Math.random() + 0.7) + ")");
+  }, []);
+
+  // console.log(currentProject);
+
   return (
     <div className="project-main">
       <div className="project-content">
@@ -22,8 +34,27 @@ const Project = ({ projectNumber }) => {
             <h3>{currentProject.title}</h3>
             <p>{currentProject.infos}</p>
           </span>
+          <img
+            src={currentProject.img}
+            alt={currentProject.title}
+            className="img"
+          />
+        </div>
+        <div className="button-container">
+          <a
+            href={currentProject.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover"
+          >
+            <span className="button">voir le site</span>
+          </a>
         </div>
       </div>
+      <span
+        className="random-circle"
+        style={{ left, top, transform: size }}
+      ></span>
     </div>
   );
 };
