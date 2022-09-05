@@ -8,12 +8,14 @@ const Project = ({ projectNumber }) => {
   const [left, setLeft] = useState();
   const [top, setTop] = useState();
   const [size, setSize] = useState();
+  // const [plusMinus, setPlusMinus] = useState();
 
   useEffect(() => {
     // randomise la taille du cercle sur la gauche...
     setLeft(Math.floor(Math.random() * 200 + 700) + "px");
     setTop(Math.floor(Math.random() * 200 + 150) + "px");
     setSize("scale(" + (Math.random() + 0.7) + ")");
+    // setPlusMinus(Math.random() > 0.4 ? 1 : -1);
   }, []);
 
   // console.log(currentProject);
@@ -40,6 +42,23 @@ const Project = ({ projectNumber }) => {
     duration: 0.6,
   };
 
+  const imgAnim = {
+    initial: {
+      opacity: 0,
+      x: Math.floor(Math.random() * 350 * (Math.random() > 0.4 ? 1 : -1)),
+      y: Math.floor(Math.random() * 120 * (Math.random() > 0.4 ? 1 : -1)),
+      // x: Math.floor(Math.random() * 350 + plusMinus),
+      // y: Math.floor(Math.random() * 120 + plusMinus),
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      y: 0,
+    },
+  };
+
+  console.log(imgAnim); // voir les chiffres que ça produits
+
   return (
     <motion.div
       className="project-main"
@@ -58,7 +77,13 @@ const Project = ({ projectNumber }) => {
           ))}
         </ul>
       </div>
-      <div className="img-content">
+      <motion.div
+        initial="initial"
+        animate="visible"
+        variants={imgAnim}
+        transition={{ duration: 1.2 }}
+        className="img-content"
+      >
         <div className="img-container hover">
           <span>
             <h3>{currentProject.title}</h3>
@@ -80,7 +105,7 @@ const Project = ({ projectNumber }) => {
             <span className="button">voir le site</span>
           </a>
         </div>
-      </div>
+      </motion.div>
       <span
         className="random-circle"
         style={{ left, top, transform: size }}
